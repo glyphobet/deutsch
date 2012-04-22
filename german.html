@@ -1,0 +1,196 @@
+<html>
+  <head>
+    <title>German Declension Explorer</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    var endings = {
+      nominativ : {
+          masculinen : '',
+          neutral    : '',
+          femininum  : 'e',
+          plural     : 'e'
+      },
+      akkusativ : {
+          masculinen : 'en',
+          neutral    : '',
+          femininum  : 'e',
+          plural     : 'e'
+      },
+      dativ     : {
+          masculinen : 'em',
+          neutral    : 'em',
+          femininum  : 'er',
+          plural     : 'en'
+      },
+      genitiv   : {
+          masculinen : 'es',
+          neutral    : 'es',
+          femininum  : 'er',
+          plural     : 'er'
+      }
+    };
+    var definite_endings = {
+      nominativ : {
+        masculinen : 'er',
+        neutral    : 'es'
+      },
+      akkusativ : {
+        neutral    : 'es'
+      }
+    };
+    var exceptions = {
+      d : {
+        nominativ : {
+          neutral   : 'das',
+          femininum : 'die',
+          plural    : 'die'
+        },
+        akkusativ : {
+          neutral   : 'das',
+          femininum : 'die',
+          plural    : 'die'
+        }
+      },
+      'eur-' : {
+        nominativ : {
+          masculinen : 'euer',
+          neutral    : 'euer'
+        },
+        akkusativ : {
+          neutral    : 'euer'
+        }
+      }
+    };
+    function ending(group, stamm, fall, geschlecht) {
+      if (group == 'bestimmt' && definite_endings[fall] && definite_endings[fall][geschlecht]) {
+        return definite_endings[fall][geschlecht];
+      } else {
+        return endings[fall][geschlecht];
+      }
+    }
+    function decline(group, stamm, fall, geschlecht) {
+      if (stamm == 'der/die/das') {
+        stamm = 'd';
+      }
+      if (exceptions[stamm] && exceptions[stamm][fall] && exceptions[stamm][fall][geschlecht]) {
+        return exceptions[stamm][fall][geschlecht];
+      } else {
+        var s = ending(group, stamm, fall, geschlecht);
+        return (stamm ? stamm.replace('-','') : (s ? '-' : '')) + s;
+      }
+    }
+    function render() {
+      var group = $('#stamm option:selected').parent('optgroup').attr('label');
+      for (var fall in endings) {
+        for (var geschlecht in endings[fall]) {
+          $('tr.' + fall + ' > td.' + geschlecht).text(
+            decline(group, $('#stamm').val(), fall, geschlecht)
+          );
+        }
+      }
+    };
+    $(document).ready(function () {
+      $('#stamm').change(render);
+      render();
+    });
+    </script>
+    <style>
+      body {
+        width:500px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      table {
+        width: 500px;
+      }
+      td, th {
+        width: 20%;
+      }
+      th {
+        text-align: left;
+      }
+      th:first-child {
+        text-align: right;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Deutsch Deklination Explorer</h1>
+    <form>
+      <label for="stamm">stamm:</label>
+      <select id="stamm">
+        <optgroup label="unbestimmt">
+          <option></option>
+          <option>ein-</option>
+          <option>kein-</option>
+          <option>mein-</option>
+          <option>dein-</option>
+          <option>sein-</option>
+          <option>ihr-</option>
+          <option>unser-</option>
+          <option>eur-</option>
+        </optgroup>
+        <optgroup label="bestimmt">
+          <option></option>
+          <option>der/die/das</option>
+          <option>dies-</option>
+          <option>jen-</option>
+          <option>welch-</option>
+        </optgroup>
+      </select>
+      <!-- <select id="case">
+        <option></option>
+        <option>nominativ</option>
+        <option>akkusativ</option>
+        <option>dativ</option>
+        <option>genitiv</option>
+      </select>
+      <select id="gender_number">
+        <option></option>
+        <option>masculinen</option>
+        <option>neutral</option>
+        <option>femininum</option>
+        <option>plural</option>
+      </select> -->
+    </form>
+    <table>
+      <tbody>
+        <tr>
+          <th></th>
+          <th>masculinen</th>
+          <th>neutral</th>
+          <th>femininum</th>
+          <th>plural</th>
+        </tr>
+        <tr class="nominativ">
+          <th>nominativ</th>
+          <td class="masculinen"></td>
+          <td class="neutral"   ></td>
+          <td class="femininum" ></td>
+          <td class="plural"    ></td>
+        </tr>
+        <tr class="akkusativ">
+          <th>akkusativ</th>
+          <td class="masculinen"></td>
+          <td class="neutral"   ></td>
+          <td class="femininum" ></td>
+          <td class="plural"    ></td>
+        </tr>
+        <tr class="dativ">
+          <th>dativ</th>
+          <td class="masculinen"></td>
+          <td class="neutral"   ></td>
+          <td class="femininum" ></td>
+          <td class="plural"    ></td>
+        </tr>
+        <tr class="genitiv">
+          <th>genitiv</th>
+          <td class="masculinen"></td>
+          <td class="neutral"   ></td>
+          <td class="femininum" ></td>
+          <td class="plural"    ></td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
