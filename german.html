@@ -3,7 +3,7 @@
     <title>German Declension Explorer</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
     <script type="text/javascript">
-    var endings = {
+    var suffixe = {
       nominativ : {
           masculinen : '',
           neutral    : '',
@@ -29,7 +29,7 @@
           plural     : 'er'
       }
     };
-    var definite_endings = {
+    var bestimmt_suffixe = {
       nominativ : {
         masculinen : 'er',
         neutral    : 'es'
@@ -38,7 +38,7 @@
         neutral    : 'es'
       }
     };
-    var exceptions = {
+    var ausnahmen = {
       d : {
         nominativ : {
           neutral   : 'das',
@@ -61,30 +61,30 @@
         }
       }
     };
-    function ending(group, stamm, fall, geschlecht) {
-      if (group == 'bestimmt' && definite_endings[fall] && definite_endings[fall][geschlecht]) {
-        return definite_endings[fall][geschlecht];
+    function suffix(group, stamm, fall, geschlecht) {
+      if (group == 'bestimmt' && bestimmt_suffixe[fall] && bestimmt_suffixe[fall][geschlecht]) {
+        return bestimmt_suffixe[fall][geschlecht];
       } else {
-        return endings[fall][geschlecht];
+        return suffixe[fall][geschlecht];
       }
     }
-    function decline(group, stamm, fall, geschlecht) {
+    function deklination(group, stamm, fall, geschlecht) {
       if (stamm == 'der/die/das') {
         stamm = 'd';
       }
-      if (exceptions[stamm] && exceptions[stamm][fall] && exceptions[stamm][fall][geschlecht]) {
-        return exceptions[stamm][fall][geschlecht];
+      if (ausnahmen[stamm] && ausnahmen[stamm][fall] && ausnahmen[stamm][fall][geschlecht]) {
+        return ausnahmen[stamm][fall][geschlecht];
       } else {
-        var s = ending(group, stamm, fall, geschlecht);
+        var s = suffix(group, stamm, fall, geschlecht);
         return (stamm ? stamm.replace('-','') : (s ? '-' : '')) + s;
       }
     }
     function render() {
       var group = $('#stamm option:selected').parent('optgroup').attr('label');
-      for (var fall in endings) {
-        for (var geschlecht in endings[fall]) {
+      for (var fall in suffixe) {
+        for (var geschlecht in suffixe[fall]) {
           $('tr.' + fall + ' > td.' + geschlecht).text(
-            decline(group, $('#stamm').val(), fall, geschlecht)
+            deklination(group, $('#stamm').val(), fall, geschlecht)
           );
         }
       }
