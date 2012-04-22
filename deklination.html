@@ -80,18 +80,19 @@
       }
     }
     function render() {
+      var stamm = $('#stamm').val();
       var group = $('#stamm option:selected').parent('optgroup').attr('label');
+      document.location.hash = stamm;
       for (var fall in suffixe) {
         for (var geschlecht in suffixe[fall]) {
           $('tr.' + fall + ' > td.' + geschlecht).text(
-            deklination(group, $('#stamm').val(), fall, geschlecht)
+            deklination(group, stamm, fall, geschlecht)
           );
         }
       }
     };
     $(document).ready(function () {
-      $('#stamm').change(render);
-      render();
+      $('#stamm').change(render).val(document.location.hash.replace('#', '')).change();
     });
     </script>
     <style>
