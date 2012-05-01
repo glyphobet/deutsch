@@ -109,9 +109,11 @@
       }
       table {
         width: 500px;
+        border-collapse: collapse;
       }
       td, th {
         width: 20%;
+        padding: 0.125em;
       }
       th {
         text-align: left;
@@ -119,6 +121,14 @@
       th:first-child {
         text-align: right;
       }
+      td {
+      }
+      td.er { background-color: #a9c6ee; } /* blue   */
+      td.em { background-color: #d7a9ee; } /* purple */
+      td.e  { background-color: #fdb4b4; } /* red    */
+      td.es { background-color: #fde0b4; } /* orange */
+      td.as { background-color: #fdfdb4; } /* yellow */
+      td.en { background-color: #a9eea9; } /* green  */
     </style>
   </head>
   <body>
@@ -157,31 +167,31 @@
         </tr>
         <tr class="nominativ">
           <th>nominativ</th>
-          <td class="masculinen"></td>
-          <td class="neutral"   ></td>
-          <td class="femininum" ></td>
-          <td class="plural"    ></td>
+          <td class="er masculinen"></td>
+          <td class="as neutral"   ></td>
+          <td class="e  femininum" ></td>
+          <td class="e  plural"    ></td>
         </tr>
         <tr class="akkusativ">
           <th>akkusativ</th>
-          <td class="masculinen"></td>
-          <td class="neutral"   ></td>
-          <td class="femininum" ></td>
-          <td class="plural"    ></td>
+          <td class="en masculinen"></td>
+          <td class="as neutral"   ></td>
+          <td class="e  femininum" ></td>
+          <td class="e  plural"    ></td>
         </tr>
         <tr class="dativ">
           <th>dativ</th>
-          <td class="masculinen"></td>
-          <td class="neutral"   ></td>
-          <td class="femininum" ></td>
-          <td class="plural"    ></td>
+          <td class="em masculinen"></td>
+          <td class="em neutral"   ></td>
+          <td class="er femininum" ></td>
+          <td class="en plural"    ></td>
         </tr>
         <tr class="genitiv">
           <th>genitiv</th>
-          <td class="masculinen"></td>
-          <td class="neutral"   ></td>
-          <td class="femininum" ></td>
-          <td class="plural"    ></td>
+          <td class="es masculinen"></td>
+          <td class="es neutral"   ></td>
+          <td class="er femininum" ></td>
+          <td class="er plural"    ></td>
         </tr>
       </tbody>
     </table>
