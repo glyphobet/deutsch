@@ -61,46 +61,49 @@
         }
       }
     };
-    function suffix(group, stamm, fall, geschlecht) {
-      if (group == 'bestimmt' && bestimmt_suffixe[fall] && bestimmt_suffixe[fall][geschlecht]) {
-        return bestimmt_suffixe[fall][geschlecht];
+    // We use 'kase' because 'case' is a keyword in JavaScript
+    function find_suffix(group, stem, kase, gender) {
+      if (group == 'bestimmt' && bestimmt_suffixe[kase] && bestimmt_suffixe[kase][gender]) {
+        return bestimmt_suffixe[kase][gender];
       } else {
-        return suffixe[fall][geschlecht];
+        return suffixe[kase][gender];
       }
     }
-    function deklination(group, stamm, fall, geschlecht, s) {
-      if (stamm == 'ein' && geschlecht == 'plural') {
+    function decline(group, stem, kase, gender, suffix) {
+      if (stem == 'ein' && gender == 'plural') {
         return '';
-      } else if (ausnahmen[stamm] && ausnahmen[stamm][fall] && ausnahmen[stamm][fall][geschlecht]) {
-        return ausnahmen[stamm][fall][geschlecht];
+      } else if (ausnahmen[stem] && ausnahmen[stem][kase] && ausnahmen[stem][kase][gender]) {
+        return ausnahmen[stem][kase][gender];
       } else {
-        return (stamm ? stamm : (s ? '-' : '')) + s;
+        return (stem ? stem : (suffix ? '-' : '')) + suffix;
       }
     }
     function render() {
-      var stamm = $('#stamm').val();
-      var group = $('#stamm option:selected').parent('optgroup').attr('label');
-      document.location.hash = stamm;
-      for (var fall in suffixe) {
-        for (var geschlecht in suffixe[fall]) {
-          var s = suffix(group, stamm, fall, geschlecht);
-          var form = deklination(group, stamm, fall, geschlecht, s);
-          if (form.slice(-2) == 'as') {
-            s = 'as';
+      var stem = $('#stem').val();
+      var group = $('#stem option:selected').parent('optgroup').attr('label');
+      document.location.hash = stem;
+      for (var kase in suffixe) {
+        for (var gender in suffixe[kase]) {
+          var suffix = find_suffix(group, stem, kase, gender);
+          var form = decline(group, stem, kase, gender, suffix);
+          if (! form.length) {
+            suffix = '';
+          } else if (form.slice(-2) == 'as') {
+            suffix = 'as';
           }
-          $('tr.' + fall + ' > td.' + geschlecht).text(form).removeClass('e er en em es as').addClass(s);
+          $('tr.' + kase + ' > td.' + gender).text(form).removeClass('e er en em es as').addClass(suffix);
         }
       }
     };
     $(document).ready(function () {
-      $('#stamm').change(render);
+      $('#stem').change(render);
       var selected = document.location.hash.replace('#', '');
       if (selected) {
-        $('#stamm').val(selected);
+        $('#stem').val(selected);
       } else {
-        $($('#stamm option')[0]).attr('selected', true);
+        $($('#stem option')[0]).attr('selected', true);
       }
-      $('#stamm').change();
+      $('#stem').change();
     });
     </script>
     <style>
@@ -111,7 +114,6 @@
       }
       table {
         width: 500px;
-        empty-cells: hide;
         border-collapse: collapse;
       }
       td, th {
@@ -137,8 +139,8 @@
   <body>
     <h1>Deutsch-Deklination-Explorer</h1>
     <form>
-      <label for="stamm">stamm:</label>
-      <select id="stamm">
+      <label for="stem">stamm:</label>
+      <select id="stem">
         <optgroup label="unbestimmt">
           <option value=""></option>
           <option value="ein"  >ein-</option>
