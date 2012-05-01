@@ -68,13 +68,12 @@
         return suffixe[fall][geschlecht];
       }
     }
-    function deklination(group, stamm, fall, geschlecht) {
+    function deklination(group, stamm, fall, geschlecht, s) {
       if (stamm == 'ein' && geschlecht == 'plural') {
         return '';
       } else if (ausnahmen[stamm] && ausnahmen[stamm][fall] && ausnahmen[stamm][fall][geschlecht]) {
         return ausnahmen[stamm][fall][geschlecht];
       } else {
-        var s = suffix(group, stamm, fall, geschlecht);
         return (stamm ? stamm : (s ? '-' : '')) + s;
       }
     }
@@ -84,9 +83,12 @@
       document.location.hash = stamm;
       for (var fall in suffixe) {
         for (var geschlecht in suffixe[fall]) {
-          $('tr.' + fall + ' > td.' + geschlecht).text(
-            deklination(group, stamm, fall, geschlecht)
-          );
+          var s = suffix(group, stamm, fall, geschlecht);
+          var form = deklination(group, stamm, fall, geschlecht, s);
+          if (form.slice(-2) == 'as') {
+            s = 'as';
+          }
+          $('tr.' + fall + ' > td.' + geschlecht).text(form).removeClass('e er en em es as').addClass(s);
         }
       }
     };
@@ -109,6 +111,7 @@
       }
       table {
         width: 500px;
+        empty-cells: hide;
         border-collapse: collapse;
       }
       td, th {
@@ -123,12 +126,12 @@
       }
       td {
       }
+      td.es { background-color: #fdfdb4; } /* yellow */
+      td.en { background-color: #a9eea9; } /* green  */
       td.er { background-color: #a9c6ee; } /* blue   */
       td.em { background-color: #d7a9ee; } /* purple */
       td.e  { background-color: #fdb4b4; } /* red    */
-      td.es { background-color: #fde0b4; } /* orange */
-      td.as { background-color: #fdfdb4; } /* yellow */
-      td.en { background-color: #a9eea9; } /* green  */
+      td.as { background-color: #fde0b4; } /* orange */
     </style>
   </head>
   <body>
@@ -167,31 +170,31 @@
         </tr>
         <tr class="nominativ">
           <th>nominativ</th>
-          <td class="er masculinen"></td>
-          <td class="as neutral"   ></td>
-          <td class="e  femininum" ></td>
-          <td class="e  plural"    ></td>
+          <td class="masculinen"></td>
+          <td class="neutral"   ></td>
+          <td class="femininum" ></td>
+          <td class="plural"    ></td>
         </tr>
         <tr class="akkusativ">
           <th>akkusativ</th>
-          <td class="en masculinen"></td>
-          <td class="as neutral"   ></td>
-          <td class="e  femininum" ></td>
-          <td class="e  plural"    ></td>
+          <td class="masculinen"></td>
+          <td class="neutral"   ></td>
+          <td class="femininum" ></td>
+          <td class="plural"    ></td>
         </tr>
         <tr class="dativ">
           <th>dativ</th>
-          <td class="em masculinen"></td>
-          <td class="em neutral"   ></td>
-          <td class="er femininum" ></td>
-          <td class="en plural"    ></td>
+          <td class="masculinen"></td>
+          <td class="neutral"   ></td>
+          <td class="femininum" ></td>
+          <td class="plural"    ></td>
         </tr>
         <tr class="genitiv">
           <th>genitiv</th>
-          <td class="es masculinen"></td>
-          <td class="es neutral"   ></td>
-          <td class="er femininum" ></td>
-          <td class="er plural"    ></td>
+          <td class="masculinen"></td>
+          <td class="neutral"   ></td>
+          <td class="femininum" ></td>
+          <td class="plural"    ></td>
         </tr>
       </tbody>
     </table>
