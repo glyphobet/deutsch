@@ -111,31 +111,37 @@
     </script>
     <style>
       body {
-        width:500px;
+        width: 720px;
         margin: 0 auto;
         text-align: center;
       }
       footer {
-        width: 500px;
+        width: 900px;
         font-size: 0.66em;
         position: absolute;
         bottom: 0;
       }
       table {
-        width: 500px;
         border-collapse: collapse;
+        width: 100%;
       }
       td, th {
-        width: 20%;
         padding: 0.125em;
       }
+      table#determiners td, table#determiners th {
+        width: 20%;
+      }
+      table#pronouns td, table#pronouns th {
+        width: 10%;
+      }
       th {
-        text-align: left;
+        text-align: center;
       }
       th:first-child {
         text-align: right;
       }
-      td {
+      table#pronouns th:first-child {
+        width: 20%;
       }
       td.es { background-color: #fdfdb4; } /* yellow */
       td.en { background-color: #a9eea9; } /* green  */
@@ -147,6 +153,60 @@
   </head>
   <body class="notranslate">
     <h1>Deutsch-Deklination-Explorer</h1>
+    <h2>Pronomen</h2>
+    <table id="pronouns">
+      <tbody>
+        <tr>
+          <th></th>
+          <th>inter&shy;rogativ</th>
+          <th>erste singular </th>
+          <th>zweite singular</th>
+          <th>dritte singular mas&shy;culinen</th>
+          <th>dritte singular neutral</th>
+          <th>dritte singular fem&shy;ininum</th>
+          <th>erste plural</th>
+          <th>zweite plural</th>
+        </tr>
+        <tr>
+          <th>nominative</th>
+          <td class="er">wer</td>
+          <td>ich</td>
+          <td>du </td>
+          <td>er </td>
+          <td>es </td>
+          <td>sie</td>
+          <td>wir</td>
+          <td>ihr</td>
+        </tr>
+        <tr>
+          <th>akkusativ</th>
+          <td class="en">wen</td>
+          <td>mich</td>
+          <td>dich</td>
+          <td class="en">ihn </td>
+          <td>es  </td>
+          <td>sie </td>
+          <td>uns </td>
+          <td>euch</td>
+        </tr>
+        <tr>
+          <th>dative</th>
+          <td class="em">wem</td>
+          <td>mir  </td>
+          <td>dir  </td>
+          <td class="em">ihm  </td>
+          <td class="em">ihm  </td>
+          <td>ihr  </td>
+          <td>uns  </td>
+          <td>euch </td>
+        </tr>
+        <tr>
+          <th>genitive</th>
+          <td>wessen</td>
+        </tr>
+      </tbody>
+    </table>
+    <h2>Bestimmungsw&ouml;rtern</h2>
     <form>
       <label for="stem">stamm:</label>
       <select id="stem">
@@ -170,7 +230,7 @@
         </optgroup>
       </select>
     </form>
-    <table>
+    <table id="determiners">
       <tbody>
         <tr>
           <th></th>
