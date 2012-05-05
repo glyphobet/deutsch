@@ -98,8 +98,7 @@
         }
       }
     };
-    $(document).ready(function () {
-      $('#stem').change(render);
+    function hashchange() {
       var selected = document.location.hash.replace('#', '');
       if (selected) {
         $('#stem').val(selected);
@@ -107,6 +106,11 @@
         $($('#stem option')[0]).attr('selected', true);
       }
       $('#stem').change();
+    };
+    $(document).ready(function () {
+      $(window).bind('hashchange', hashchange);
+      $('#stem').change(render);
+      hashchange();
     });
     </script>
     <style>
