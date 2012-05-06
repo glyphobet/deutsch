@@ -82,8 +82,13 @@
       }
     }
     function render() {
-      var stem = $('#stem').val();
-      var group = $('#stem option:selected').parent('optgroup').attr('label');
+      var menu = $('#stem');
+      var selection = menu.find('option:selected');
+      var group = selection.parent('optgroup').attr('label');
+      var stem = selection.text().replace('-', '');
+      if (selection.val() == 'd'){
+        stem = 'd';
+      }
       for (var kase in suffixe) {
         for (var gender in suffixe[kase]) {
           var suffix = find_suffix(group, stem, kase, gender);
@@ -254,7 +259,7 @@
       <label for="stem">stamm:</label>
       <select id="stem">
         <optgroup label="unbestimmt">
-          <option value=""></option>
+          <option value="unbestimmt"></option>
           <option value="ein"  >ein-</option>
           <option value="kein" >kein-</option>
           <option value="mein" >mein-</option>
@@ -265,7 +270,7 @@
           <option value="ihr"  >ihr-</option>
         </optgroup>
         <optgroup label="bestimmt">
-          <option value=""></option>
+          <option value="bestimmt"></option>
           <option value="d"    >der/die/das</option>
           <option value="dies" >dies-</option>
           <option value="jen"  >jen-</option>
