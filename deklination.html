@@ -106,7 +106,6 @@
       var selected = document.location.hash.replace('#', '');
       if (selected) {
         try {
-          console.debug($('#stem').find('option:[value='+selected+']'));
           if ($('#stem').find('option:[value='+selected+']').length) {
             $('#stem').val(selected);
           } else {
