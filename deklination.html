@@ -84,7 +84,6 @@
     function render() {
       var stem = $('#stem').val();
       var group = $('#stem option:selected').parent('optgroup').attr('label');
-      document.location.hash = stem;
       for (var kase in suffixe) {
         for (var gender in suffixe[kase]) {
           var suffix = find_suffix(group, stem, kase, gender);
@@ -105,12 +104,16 @@
       } else {
         $($('#stem option')[0]).attr('selected', true);
       }
-      $('#stem').change();
+      render();
+    };
+    function menuchange() {
+      var stem = $('#stem').val();
+      document.location.hash = stem;
     };
     $(document).ready(function () {
+      $('#stem').change(menuchange);
       $(window).bind('hashchange', hashchange);
-      $('#stem').change(render);
-      hashchange();
+      $(window).trigger('hashchange');
     });
     </script>
     <style>
