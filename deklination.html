@@ -105,7 +105,16 @@
     function hashchange() {
       var selected = document.location.hash.replace('#', '');
       if (selected) {
-        $('#stem').val(selected);
+        try {
+          console.debug($('#stem').find('option:[value='+selected+']'));
+          if ($('#stem').find('option:[value='+selected+']').length) {
+            $('#stem').val(selected);
+          } else {
+            document.location.hash = '';
+          }
+        } catch (error) {
+          document.location.hash = '';
+        }
       } else {
         $($('#stem option')[0]).attr('selected', true);
       }
