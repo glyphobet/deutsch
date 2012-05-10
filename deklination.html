@@ -52,6 +52,12 @@
         }
       },
       relativ : {
+        nominativ : {
+          neutral   : 'das'
+        },
+        akkusativ : {
+          neutral   : 'das'
+        },
         dativ : {
           plural : 'denen'
         },
@@ -110,8 +116,12 @@
           }
           if (form.slice(-2) == 'as') {
             suffix = 'as';
+          } else if (form.slice(-5) == 'essen') {
+            suffix = 'essen';
+          } else if (form.slice(-4) == 'eren') {
+            suffix = 'eren';
           }
-          $('table#bestimmungswoertern tr.' + kase + ' > td.' + gender).text(form).removeClass('e er en em es as').addClass(suffix);
+          $('table#bestimmungswoertern tr.' + kase + ' > td.' + gender).text(form).removeClass('e er en em es as eren essen').addClass(suffix);
         }
       }
     };
@@ -155,6 +165,7 @@
         line-height: 1.5em;
         margin-top: 4em;
       }
+      label { font-weight: bold; }
       table {
         border-collapse: collapse;
         width: 100%;
@@ -178,13 +189,14 @@
       table#pronomen th:first-child {
         width: 18.18%; /* 2/11ths */
       }
-      td.es { background-color: #fdfdb4; } /* yellow */
-      td.en { background-color: #a9eea9; } /* green  */
-      td.er { background-color: #a9c6ee; } /* blue   */
-      td.em { background-color: #d7a9ee; } /* purple */
-      td.e  { background-color: #fdb4b4; } /* red    */
-      td.as { background-color: #fde0b4; } /* orange */
-      label { font-weight: bold; }
+      td.es    { background-color: #fdfdb4; } /* yellow       */
+      td.essen { background-color: #e4f6af; } /* green-yellow */
+      td.en    { background-color: #aaeeaa; } /* green        */
+      td.eren  { background-color: #aaddee; } /* teal         */
+      td.er    { background-color: #aac6ee; } /* blue         */
+      td.em    { background-color: #d7aaee; } /* purple       */
+      td.e     { background-color: #fdb4b4; } /* red          */
+      td.as    { background-color: #fde0b4; } /* orange       */
       a, a:visited { color: #000; }
       a:hover { color: #00E; }
       a:active { color: #E00; }
@@ -264,7 +276,7 @@
         </tr>
         <tr>
           <th>Genitiv</th>
-          <td>wessen</td>
+          <td class="essen">wessen</td>
           <td><a href="#mein" >mein-</a></td>
           <td><a href="#unser">unser-</a></td>
           <td><a href="#dein" >dein-</a></td>
