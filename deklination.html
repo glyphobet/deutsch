@@ -42,60 +42,53 @@
         neutral    : 'es'
       }
     };
-    var ausnahmen = {
+    var exceptions = {
       bestimmt : {
         nominativ : {
-          neutral   : 'das'
+          neutral   : 'as'
         },
         akkusativ : {
-          neutral   : 'das'
+          neutral   : 'as'
         }
       },
       relativ : {
         nominativ : {
-          neutral   : 'das'
+          neutral   : 'as'
         },
         akkusativ : {
-          neutral   : 'das'
+          neutral   : 'as'
         },
         dativ : {
-          plural : 'denen'
+          plural : 'enen'
         },
         genitiv : {
-          masculinen : 'dessen',
-          neutral    : 'dessen',
-          femininum  : 'deren', // derer?
-          plural     : 'deren'  // derer?
-        }
-      },
-      eur : {
-        nominativ : {
-          masculinen : 'euer',
-          neutral    : 'euer'
-        },
-        akkusativ : {
-          neutral    : 'euer'
+          masculinen : 'essen',
+          neutral    : 'essen',
+          femininum  : 'eren', // derer?
+          plural     : 'eren'  // derer?
         }
       }
     };
     // We use 'kase' because 'case' is a keyword in JavaScript
-    function find_suffix(group, gloss, stem, kase, gender) {
+    function find_suffix(group, gloss, kase, gender) {
+      if (exceptions[gloss] && exceptions[gloss][kase] && exceptions[gloss][kase][gender]) {
+        return exceptions[gloss][kase][gender];
+      }
       if (group == 'bestimmt' && bestimmt_suffixe[kase] && bestimmt_suffixe[kase][gender]) {
         return bestimmt_suffixe[kase][gender];
-      } else {
-        return suffixe[kase][gender];
       }
+      return suffixe[kase][gender];
     }
     function decline(group, gloss, stem, kase, gender, suffix) {
       if (stem == 'ein' && gender == 'plural') {
         return '';
-      } else if (ausnahmen[gloss] && ausnahmen[gloss][kase] && ausnahmen[gloss][kase][gender]) {
-        return ausnahmen[gloss][kase][gender];
+      } else if (stem == 'eur' && suffix === '') {
+        return 'euer';
       } else {
         if (gloss == 'bestimmt' || gloss == 'relativ') {
           stem = 'd';
           if (suffix == 'e') {
-            suffix = 'ie';
+            return 'die';
           }
         }
         return (stem ? stem : (suffix ? '-' : '')) + suffix;
@@ -109,17 +102,10 @@
       var stem = selection.text().replace('-', '');
       for (var kase in suffixe) {
         for (var gender in suffixe[kase]) {
-          var suffix = find_suffix(group, gloss, stem, kase, gender);
+          var suffix = find_suffix(group, gloss, kase, gender);
           var form = decline(group, gloss, stem, kase, gender, suffix);
           if (! form.length || form.slice(-suffix.length) != suffix) {
             suffix = '';
-          }
-          if (form.slice(-2) == 'as') {
-            suffix = 'as';
-          } else if (form.slice(-5) == 'essen') {
-            suffix = 'essen';
-          } else if (form.slice(-4) == 'eren') {
-            suffix = 'eren';
           }
           $('table#bestimmungswoertern tr.' + kase + ' > td.' + gender).text(form).removeClass('e er en em es as eren essen').addClass(suffix);
         }
