@@ -42,16 +42,23 @@
       }
     };
     var ausnahmen = {
-      d : {
+      bestimmt : {
         nominativ : {
-          neutral   : 'das',
-          femininum : 'die',
-          plural    : 'die'
+          neutral   : 'das'
         },
         akkusativ : {
-          neutral   : 'das',
-          femininum : 'die',
-          plural    : 'die'
+          neutral   : 'das'
+        }
+      },
+      relativ : {
+        dativ : {
+          plural : 'denen'
+        },
+        genitiv : {
+          masculinen : 'dessen',
+          neutral    : 'dessen',
+          femininum  : 'deren', // derer?
+          plural     : 'deren'  // derer?
         }
       },
       eur : {
@@ -65,19 +72,25 @@
       }
     };
     // We use 'kase' because 'case' is a keyword in JavaScript
-    function find_suffix(group, stem, kase, gender) {
+    function find_suffix(group, gloss, stem, kase, gender) {
       if (group == 'bestimmt' && bestimmt_suffixe[kase] && bestimmt_suffixe[kase][gender]) {
         return bestimmt_suffixe[kase][gender];
       } else {
         return suffixe[kase][gender];
       }
     }
-    function decline(group, stem, kase, gender, suffix) {
+    function decline(group, gloss, stem, kase, gender, suffix) {
       if (stem == 'ein' && gender == 'plural') {
         return '';
-      } else if (ausnahmen[stem] && ausnahmen[stem][kase] && ausnahmen[stem][kase][gender]) {
-        return ausnahmen[stem][kase][gender];
+      } else if (ausnahmen[gloss] && ausnahmen[gloss][kase] && ausnahmen[gloss][kase][gender]) {
+        return ausnahmen[gloss][kase][gender];
       } else {
+        if (gloss == 'bestimmt' || gloss == 'relativ') {
+          stem = 'd';
+          if (suffix == 'e') {
+            suffix = 'ie';
+          }
+        }
         return (stem ? stem : (suffix ? '-' : '')) + suffix;
       }
     }
@@ -85,17 +98,16 @@
       var menu = $('#stem');
       var selection = menu.find('option:selected');
       var group = selection.parent('optgroup').attr('label');
+      var gloss = menu.val();
       var stem = selection.text().replace('-', '');
-      if (selection.val() == 'd'){
-        stem = 'd';
-      }
       for (var kase in suffixe) {
         for (var gender in suffixe[kase]) {
-          var suffix = find_suffix(group, stem, kase, gender);
-          var form = decline(group, stem, kase, gender, suffix);
-          if (! form.length) {
+          var suffix = find_suffix(group, gloss, stem, kase, gender);
+          var form = decline(group, gloss, stem, kase, gender, suffix);
+          if (! form.length || form.slice(-suffix.length) != suffix) {
             suffix = '';
-          } else if (form.slice(-2) == 'as') {
+          }
+          if (form.slice(-2) == 'as') {
             suffix = 'as';
           }
           $('table#bestimmungswoertern tr.' + kase + ' > td.' + gender).text(form).removeClass('e er en em es as').addClass(suffix);
@@ -267,7 +279,7 @@
       <label for="stem">Stamm:</label>
       <select id="stem">
         <optgroup label="unbestimmt">
-          <option value="unbestimmt"></option>
+          <option value="unbestimmt_suffix"></option>
           <option value="ein"  >ein-</option>
           <option value="kein" >kein-</option>
           <option value="mein" >mein-</option>
@@ -278,11 +290,12 @@
           <option value="ihr"  >ihr-</option>
         </optgroup>
         <optgroup label="bestimmt">
-          <option value="bestimmt"></option>
-          <option value="d"    >der/die/das</option>
-          <option value="dies" >dies-</option>
-          <option value="jen"  >jen-</option>
-          <option value="welch">welch-</option>
+          <option value="bestimmt_suffix"></option>
+          <option value="bestimmt"> bestimmt</option>
+          <option value="relativ" > relativ</option>
+          <option value="dies"    >dies-</option>
+          <option value="jen"     >jen-</option>
+          <option value="welch"   >welch-</option>
         </optgroup>
       </select>
     </form>
