@@ -98,7 +98,7 @@
           } else if (form.slice(-2) == 'as') {
             suffix = 'as';
           }
-          $('tr.' + kase + ' > td.' + gender).text(form).removeClass('e er en em es as').addClass(suffix);
+          $('table#bestimmungswoertern tr.' + kase + ' > td.' + gender).text(form).removeClass('e er en em es as').addClass(suffix);
         }
       }
     };
