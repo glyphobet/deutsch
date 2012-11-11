@@ -1,3 +1,9 @@
+table#modalverben td, table#modalverben th {
+  width: 16.6666%; /* 1/6th */
+}
+table#hilfsverben td, table#hilfsverben th {
+  width: 12.5%; /* 1/8th */
+}
 td.st   { background-color: #fdfdb4; } /* yellow       */ /* Present 2nd Sg */
 td.test { background-color: #e4f6af; } /* green-yellow */ /* Past    2nd Sg */
 td.en   { background-color: #aaeeaa; } /* green        */ /* Present        */
