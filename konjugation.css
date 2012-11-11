@@ -1,0 +1,8 @@
+td.st   { background-color: #fdfdb4; } /* yellow       */ /* Present 2nd Sg */
+td.test { background-color: #e4f6af; } /* green-yellow */ /* Past    2nd Sg */
+td.en   { background-color: #aaeeaa; } /* green        */ /* Present        */
+td.ten  { background-color: #aaddee; } /* teal         */ /* Past           */
+td.t    { background-color: #aac6ee; } /* blue         */ /* Present 2nd Pl */
+td.tet  { background-color: #d7aaee; } /* purple       */ /* Past    2nd Pl */
+td.e    { background-color: #fdb4b4; } /* red          */ /* Present 1st Sg */
+td.te   { background-color: #fde0b4; } /* orange       */ /* Past    1st Sg */
