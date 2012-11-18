@@ -163,7 +163,7 @@ function conjugate(group, stem, tense, count, person) {
   var k = ((konjugation_groups[stem] || konjugation_groups[group] || {})[tense] || konjugation[tense]);
   affixes = k[person + count] || k[count];
 
-  form = (stem ? stem : '-');
+  form = stem;
   if (stems[stem] && stems[stem][tense]) {
     form = typeof(stems[stem][tense]) == 'string' ? stems[stem][tense] : ( stems[stem][tense][person + count] || stems[stem][tense][count] || stem );
   }
@@ -179,7 +179,7 @@ function conjugate(group, stem, tense, count, person) {
     }
     prefix = affixes[0];
     suffix = affixes[1];
-    form = prefix + form;
+    form = prefix + (form ? form : '-');
     if (form.slice(-1) == 't' && suffix.slice(0,1) == 't') {
       form += 'e';
     }
