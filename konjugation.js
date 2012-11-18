@@ -59,6 +59,13 @@ var konjugation_groups =
     , '2pl': '-t'
     }
   }
+, werd:
+  { imperativ:
+    { '2sg': konjugation.imperativ['2sg']
+    , pl   : konjugation.imperativ.pl
+    , '2pl': '-et'
+    }
+  }
 , hab:
   { partizip: ['ge-t'] }
 , tu:
@@ -144,10 +151,18 @@ var exceptions =
     { '1sg': 'sei'
     , '3sg': 'sei'
     }
+  , imperativ:
+    { '2sg': 'sei'
+    , '2pl': 'seid'
+    }
   }
 , werd:
   { praesens:
     { '3sg': 'w<b>i</b>rd' }
+  }
+, hab:
+  { imperativ:
+    { '2sg': 'hab' }
   }
 , tu:
   { praeteritum:
