@@ -197,9 +197,6 @@ function conjugate(group, stem, tense, count, person) {
   }
 }
 function render_td(tense, countperson, form, klass) {
-  if (tense == 'partizip' || tense == 'gerundium') {
-    console.debug(arguments);
-  }
   $('table#konjugation tr.' + tense + ' > td.' + countperson).html(form).removeClass('st est test en ten t et tet e te ge end').addClass(klass);
 }
 function render() {
