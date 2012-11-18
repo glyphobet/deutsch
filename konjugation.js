@@ -33,11 +33,6 @@ var konjugation =
   }
 };
 
-// sein => gewesen
-// werd- => geworden
-// hab- => gehabt
-// tu- => getan
-
 var konjugation_groups =
 { modalverben:
   { praesens:
@@ -49,7 +44,6 @@ var konjugation_groups =
     }
   }
 };
-
 
 var stems =
 { 'dürf':
@@ -79,7 +73,7 @@ var stems =
   { praesens:
     { sg: 'w<b>i</b>ll' }
   }
-, 'sein':
+, 'sei':
   { praeteritum: 'war'
   , konjunctiv_i: 'sei'
   , konjunctiv_ii: 'w<b>&auml</b>r'
@@ -93,7 +87,11 @@ var stems =
   , konjunctiv_ii: 'w<b>&uuml</b>rd'
   }
 , 'hab':
-  { praeteritum: 'ha<b>t</b>'
+  { praesens: 
+    { '2sg': 'ha'
+    , '3sg': 'ha'
+    }
+  , praeteritum: 'ha<b>t</b>'
   , konjunctiv_ii: 'h<b>&auml;t</b>'
   }
 , 'tu':
@@ -102,29 +100,81 @@ var stems =
   }
 };
 
+// werd- => praeteritum & konjunctiv_ii: no 't'
+// sein- => praeteritum & konjunctiv_ii: no 't'
+
+var exceptions =
+{ sei:
+  { praesens:
+    { '1sg': 'bin'
+    , '2sg': 'bist'
+    , '3sg': 'ist'
+    , '1pl': 'sind'
+    , '2pl': 'seid'
+    , '3pl': 'sind'
+    }
+  , praeteritum:
+    { '1sg': 'war'
+    , '3sg': 'war'
+    , partizip: 'ge<b>wes</b>en'
+    }
+  , konjunctiv_i:
+    { '1sg': 'sei'
+    , '3sg': 'sei'
+    }
+  }
+, werd:
+  { praesens:
+    { '3sg': 'w<b>i</b>rd' }
+  , praeteritum:
+    { partizip: 'ge<b>word</b>en' }
+  }
+, hab:
+  { praeteritum:
+    { partizip: 'ge<b>hab</b>t' }
+  }
+, tu:
+  { praeteritum:
+    { '1sg'   : 't<b>a</b>t'
+    , '3sg'   : 't<b>a</b>t'
+    , partizip: 'ge<b>ta</b>n'
+    }
+  }
+};
+
 function conjugate(group, stem, tense, count, person, participle) {
-  var affixes, prefix, suffix, klass;
+  var affixes, prefix, suffix, form, klass, pcp;
 
+  pcp = (participle ? 'partizip' : person + count);
+  var k = ((konjugation_groups[group] || {})[tense] || konjugation[tense]);
+  affixes = k[pcp] || k[count];
+
+  form = (stem ? stem : '-');
   if (stems[stem] && stems[stem][tense]) {
-    stem = typeof(stems[stem][tense]) == 'string' ? stems[stem][tense] : ( stems[stem][tense][person + count] || stems[stem][tense][count] || stem );
+    form = typeof(stems[stem][tense]) == 'string' ? stems[stem][tense] : ( stems[stem][tense][person + count] || stems[stem][tense][count] || stem );
   }
 
-  if (participle) {
-    affixes = konjugation[tense]['partizip'];
-  } else {
-    var k = ((konjugation_groups[group] || {})[tense] || konjugation[tense]);
-    affixes = k[person + count] || k[count];
-  }
-  if (affixes) {
+  if (((exceptions[stem] || {})[tense] || {})[pcp]) {
+    return [exceptions[stem][tense][pcp], ''];
+  } else if (affixes) {
     affixes = affixes.split('-');
     if (participle && affixes[0] == 'ge') {
       klass = 'ge';
     } else {
       klass = affixes[1];
     }
-    return [affixes[0] + (stem ? stem : '-') + affixes[1], klass];
+    prefix = affixes[0];
+    suffix = affixes[1];
+    form = prefix + form;
+    if (form.slice(-1) == 't' && suffix.slice(0,1) == 't') {
+      form += 'e';
+    }
+    if ((form.slice(-2) == 'en' || form.slice(-2) == 'el') && (suffix == 'en')) {
+      suffix = 'n';
+    }
+    return [form + suffix, klass];
   } else if (affixes === null) { // null means it takes no suffixes
-    return [stem, ''];
+    return [form, ''];
   } else { // undefined means there is no form
     return ['', ''];
   }
@@ -136,7 +186,6 @@ function render() {
   var menu = $('#stem');
   var selection = menu.find('option:selected');
   var group = selection.parent('optgroup').attr('label');
-  var gloss = menu.val();
   var stem = selection.text().replace('-', '');
   var formclass;
   for (var tense in konjugation) {
