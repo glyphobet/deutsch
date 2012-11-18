@@ -1,38 +1,57 @@
-var tenses = {
-  praesens: {
-    'sg' :null ,
-    '2sg':"-st",
-    'pl' :"-en",
-    '2pl':"-t" ,
-    'partizip':"-end"
-  },
-  praeteritum: {
-    'sg' :"-te"  ,
-    '2sg':"-test",
-    'pl' :"-ten" ,
-    '2pl':"-tet" ,
-    'partizip':"ge-t"
-  },
-  konjunctiv_i: {
-    'sg' :"-e"  ,
-    '2sg':"-est",
-    'pl' :"-en" ,
-    '2pl':"-et" ,
-  },
-  konjunctiv_ii: {
-    'sg' :"-te" ,
-    '2sg':"-test",
-    'pl' :"-ten" ,
-    '2pl':"-tet" 
-  },
-  imperativ: {
-    '2sg': '-e' ,
-    'pl' : '-en',
-    '2pl': '-t' ,
+var konjugation =
+{ praesens:
+  { '1sg': '-e'
+  , '2sg': '-st'
+  , '3sg': '-t'
+  , pl: '-en'
+  , '2pl': '-t'
+  , partizip: '-end'
+  }
+, praeteritum:
+  { sg : '-te'
+  , '2sg': '-test'
+  , pl : '-ten'
+  , '2pl': '-tet'
+  , partizip: 'ge-t'
+  }
+, konjunctiv_i:
+  { sg : '-e'
+  , '2sg': '-est'
+  , pl : '-en'
+  , '2pl': '-et'
+  }
+, konjunctiv_ii:
+  { sg : '-te'
+  , '2sg': '-test'
+  , pl : '-ten'
+  , '2pl': '-tet'
+  }
+, imperativ:
+  { '2sg': '-e'
+  , pl : '-en'
+  , '2pl': '-t'
   }
 };
 
-var stems = 
+// sein => gewesen
+// werd- => geworden
+// hab- => gehabt
+// tu- => getan
+
+var konjugation_groups =
+{ modalverben:
+  { praesens:
+    { sg      : null
+    , '2sg'   : konjugation.praesens['2sg']
+    , pl      : konjugation.praesens.pl
+    , '2pl'   : konjugation.praesens['2pl']
+    , partizip: konjugation.praesens.partizip
+    }
+  }
+};
+
+
+var stems =
 { 'dürf':
   { praesens:
     { sg: 'd<b>a</b>rf' }
@@ -60,19 +79,41 @@ var stems =
   { praesens:
     { sg: 'w<b>i</b>ll' }
   }
+, 'sein':
+  { praeteritum: 'war'
+  , konjunctiv_i: 'sei'
+  , konjunctiv_ii: 'w<b>&auml</b>r'
+  }
+, 'werd':
+  { praesens:
+    { '2sg': 'w<b>i</b>r'
+    , '3sg': 'w<b>i</b>r'
+    }
+  , praeteritum: 'w<b>u</b>rd'
+  , konjunctiv_ii: 'w<b>&uuml</b>rd'
+  }
+, 'hab':
+  { praeteritum: 'ha<b>t</b>'
+  , konjunctiv_ii: 'h<b>&auml;t</b>'
+  }
+, 'tu':
+  { praeteritum: 't<b>a</b>'
+  , konjunctiv_ii: 't<b>&auml;</b>'
+  }
 };
 
 function conjugate(group, stem, tense, count, person, participle) {
   var affixes, prefix, suffix, klass;
 
   if (stems[stem] && stems[stem][tense]) {
-    stem = (typeof(stems[stem][tense]) == 'string' ? stems[stem][tense]: undefined) || stems[stem][tense][person + count] || stems[stem][tense][count] ||  stem;
+    stem = typeof(stems[stem][tense]) == 'string' ? stems[stem][tense] : ( stems[stem][tense][person + count] || stems[stem][tense][count] || stem );
   }
 
   if (participle) {
-    affixes = tenses[tense]['partizip'];
-  } else  {
-    affixes = tenses[tense][person + count] || tenses[tense][count];
+    affixes = konjugation[tense]['partizip'];
+  } else {
+    var k = ((konjugation_groups[group] || {})[tense] || konjugation[tense]);
+    affixes = k[person + count] || k[count];
   }
   if (affixes) {
     affixes = affixes.split('-');
@@ -97,14 +138,15 @@ function render() {
   var group = selection.parent('optgroup').attr('label');
   var gloss = menu.val();
   var stem = selection.text().replace('-', '');
-  for (var tense in tenses) {
+  var formclass;
+  for (var tense in konjugation) {
     for (var count in {'pl':null, 'sg':null}) {
       for (var person=1; person<4; person++) {
-        var formclass = conjugate(null, stem, tense, count, person);
+        formclass = conjugate(group, stem, tense, count, person);
         render_td(tense, person + count, formclass[0], formclass[1]);
       }
     }
-    var formclass = conjugate(null, stem, tense, null, null, true);
+    formclass = conjugate(group, stem, tense, null, null, true);
     render_td(tense, 'partizip', formclass[0], formclass[1]);
   }
 };
