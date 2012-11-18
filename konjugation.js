@@ -43,7 +43,18 @@ var konjugation_groups =
     , partizip: konjugation.praesens.partizip
     }
   }
+, sei:
+  { praeteritum:
+    { sg : '-e'
+    , '2sg': '-st'
+    , pl : '-en'
+    , '2pl': '-t'
+    , partizip: 'ge-t'
+    }
+  }
 };
+
+konjugation_groups.sei.konjunctiv_ii = konjugation_groups.sei.praeteritum;
 
 var stems =
 { 'dürf':
@@ -146,7 +157,7 @@ function conjugate(group, stem, tense, count, person, participle) {
   var affixes, prefix, suffix, form, klass, pcp;
 
   pcp = (participle ? 'partizip' : person + count);
-  var k = ((konjugation_groups[group] || {})[tense] || konjugation[tense]);
+  var k = ((konjugation_groups[stem] || konjugation_groups[group] || {})[tense] || konjugation[tense]);
   affixes = k[pcp] || k[count];
 
   form = (stem ? stem : '-');
@@ -168,6 +179,9 @@ function conjugate(group, stem, tense, count, person, participle) {
     form = prefix + form;
     if (form.slice(-1) == 't' && suffix.slice(0,1) == 't') {
       form += 'e';
+    }
+    if (form.slice(-1) == 'd' && suffix.slice(0,1) == 't') {
+      suffix = suffix.slice(1);
     }
     if ((form.slice(-2) == 'en' || form.slice(-2) == 'el') && (suffix == 'en')) {
       suffix = 'n';
