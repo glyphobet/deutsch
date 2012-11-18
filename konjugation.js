@@ -1,3 +1,11 @@
+var tenses =
+{ praesens: null
+, praeteritum: null
+, konjunctiv_i: null
+, konjunctiv_ii: null
+, imperativ: null
+};
+
 var konjugation =
 { praesens:
   { '1sg': '-e'
@@ -5,14 +13,12 @@ var konjugation =
   , '3sg': '-t'
   , pl: '-en'
   , '2pl': '-t'
-  , partizip: '-end'
   }
 , praeteritum:
   { sg : '-te'
   , '2sg': '-test'
   , pl : '-ten'
   , '2pl': '-tet'
-  , partizip: 'ge-t'
   }
 , konjunctiv_i:
   { sg : '-e'
@@ -31,6 +37,8 @@ var konjugation =
   , pl : '-en'
   , '2pl': '-t'
   }
+, gerundium: ['-end']
+, partizip: ['ge-en']
 };
 
 var konjugation_groups =
@@ -40,8 +48,8 @@ var konjugation_groups =
     , '2sg'   : konjugation.praesens['2sg']
     , pl      : konjugation.praesens.pl
     , '2pl'   : konjugation.praesens['2pl']
-    , partizip: konjugation.praesens.partizip
     }
+  , partizip: ['ge-t']
   }
 , sei:
   { praeteritum:
@@ -49,9 +57,12 @@ var konjugation_groups =
     , '2sg': '-st'
     , pl : '-en'
     , '2pl': '-t'
-    , partizip: 'ge-t'
     }
   }
+, hab:
+  { partizip: ['ge-t'] }
+, tu:
+  { partizip: ['ge-n'] }
 };
 
 konjugation_groups.sei.konjunctiv_ii = konjugation_groups.sei.praeteritum;
@@ -88,6 +99,7 @@ var stems =
   { praeteritum: 'war'
   , konjunctiv_i: 'sei'
   , konjunctiv_ii: 'w<b>&auml</b>r'
+  , partizip: '<b>wes</b>'
   }
 , 'werd':
   { praesens:
@@ -96,6 +108,7 @@ var stems =
     }
   , praeteritum: 'w<b>u</b>rd'
   , konjunctiv_ii: 'w<b>&uuml</b>rd'
+  , partizip: 'w<b>ord</b>'
   }
 , 'hab':
   { praesens: 
@@ -104,15 +117,14 @@ var stems =
     }
   , praeteritum: 'ha<b>t</b>'
   , konjunctiv_ii: 'h<b>&auml;t</b>'
+  , partizip: 'hab'
   }
 , 'tu':
   { praeteritum: 't<b>a</b>'
   , konjunctiv_ii: 't<b>&auml;</b>'
+  , partizip: 't<b>a</b>'
   }
 };
-
-// werd- => praeteritum & konjunctiv_ii: no 't'
-// sein- => praeteritum & konjunctiv_ii: no 't'
 
 var exceptions =
 { sei:
@@ -127,7 +139,6 @@ var exceptions =
   , praeteritum:
     { '1sg': 'war'
     , '3sg': 'war'
-    , partizip: 'ge<b>wes</b>en'
     }
   , konjunctiv_i:
     { '1sg': 'sei'
@@ -137,39 +148,31 @@ var exceptions =
 , werd:
   { praesens:
     { '3sg': 'w<b>i</b>rd' }
-  , praeteritum:
-    { partizip: 'ge<b>word</b>en' }
-  }
-, hab:
-  { praeteritum:
-    { partizip: 'ge<b>hab</b>t' }
   }
 , tu:
   { praeteritum:
     { '1sg'   : 't<b>a</b>t'
     , '3sg'   : 't<b>a</b>t'
-    , partizip: 'ge<b>ta</b>n'
     }
   }
 };
 
-function conjugate(group, stem, tense, count, person, participle) {
-  var affixes, prefix, suffix, form, klass, pcp;
+function conjugate(group, stem, tense, count, person) {
+  var affixes, prefix, suffix, form, klass;
 
-  pcp = (participle ? 'partizip' : person + count);
   var k = ((konjugation_groups[stem] || konjugation_groups[group] || {})[tense] || konjugation[tense]);
-  affixes = k[pcp] || k[count];
+  affixes = k[person + count] || k[count];
 
   form = (stem ? stem : '-');
   if (stems[stem] && stems[stem][tense]) {
     form = typeof(stems[stem][tense]) == 'string' ? stems[stem][tense] : ( stems[stem][tense][person + count] || stems[stem][tense][count] || stem );
   }
 
-  if (((exceptions[stem] || {})[tense] || {})[pcp]) {
-    return [exceptions[stem][tense][pcp], ''];
+  if (((exceptions[stem] || {})[tense] || {})[person + count]) {
+    return [exceptions[stem][tense][person + count], ''];
   } else if (affixes) {
     affixes = affixes.split('-');
-    if (participle && affixes[0] == 'ge') {
+    if (tense == 'partizip' && affixes[0] == 'ge') {
       klass = 'ge';
     } else {
       klass = affixes[1];
@@ -194,7 +197,10 @@ function conjugate(group, stem, tense, count, person, participle) {
   }
 }
 function render_td(tense, countperson, form, klass) {
-    $('table#konjugation tr.' + tense + ' > td.' + countperson).html(form).removeClass('st est test en ten t et tet e te ge end').addClass(klass);
+  if (tense == 'partizip' || tense == 'gerundium') {
+    console.debug(arguments);
+  }
+  $('table#konjugation tr.' + tense + ' > td.' + countperson).html(form).removeClass('st est test en ten t et tet e te ge end').addClass(klass);
 }
 function render() {
   var menu = $('#stem');
@@ -202,16 +208,18 @@ function render() {
   var group = selection.parent('optgroup').attr('label');
   var stem = selection.text().replace('-', '');
   var formclass;
-  for (var tense in konjugation) {
+  for (var tense in tenses) {
     for (var count in {'pl':null, 'sg':null}) {
       for (var person=1; person<4; person++) {
         formclass = conjugate(group, stem, tense, count, person);
         render_td(tense, person + count, formclass[0], formclass[1]);
       }
     }
-    formclass = conjugate(group, stem, tense, null, null, true);
-    render_td(tense, 'partizip', formclass[0], formclass[1]);
   }
+  formclass = conjugate(group, stem, 'gerundium', 0, 0);
+  render_td('praesens', 'gerundium', formclass[0], formclass[1]);
+  formclass = conjugate(group, stem, 'partizip', 0, 0);
+  render_td('praeteritum', 'partizip', formclass[0], formclass[1]);
 };
 function hashchange() {
   var selected = document.location.hash.replace('#', '');
