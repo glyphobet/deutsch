@@ -1,14 +1,17 @@
-table#modalverben td, table#modalverben th {
-  width: 16.6666%; /* 1/6th */
+table#konjugation td, table#konjugation th {
+  width: 12%;
+}
+table#konjugation td:first-child, table#konjugation th:first-child {
+  width: 16%;
 }
 table#hilfsverben td, table#hilfsverben th {
   width: 12.5%; /* 1/8th */
 }
-td.st   { background-color: #fdfdb4; } /* yellow       */ /* Present 2nd Sg */
-td.test { background-color: #e4f6af; } /* green-yellow */ /* Past    2nd Sg */
-td.en   { background-color: #aaeeaa; } /* green        */ /* Present        */
-td.ten  { background-color: #aaddee; } /* teal         */ /* Past           */
-td.t    { background-color: #aac6ee; } /* blue         */ /* Present 2nd Pl */
-td.tet  { background-color: #d7aaee; } /* purple       */ /* Past    2nd Pl */
-td.e    { background-color: #fdb4b4; } /* red          */ /* Present 1st Sg */
-td.te   { background-color: #fde0b4; } /* orange       */ /* Past    1st Sg */
+td.st, td.est, td.test { background-color: #fdfdb4; } /* yellow       */ 
+/*                     { background-color: #e4f6af; } /* green-yellow */
+td.en, td.ten          { background-color: #aaeeaa; } /* green        */
+/*                     { background-color: #aaddee; } /* teal         */
+td.t, td.et, td.tet    { background-color: #aac6ee; } /* blue         */ 
+td.ge                  { background-color: #d7aaee; } /* purple       */
+td.e, td.te            { background-color: #fdb4b4; } /* red          */
+td.end                 { background-color: #fde0b4; } /* orange       */
