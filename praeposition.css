@@ -1,0 +1,14 @@
+table#praeposition tr, table#praeposition th {
+    width: 20%;
+}
+table#praeposition tbody tr:first-child th {
+    text-align:center;
+}
+td.es          { background-color: #fdfdb4; } /* yellow       */
+/*td.essen       { background-color: #e4f6af; } /* green-yellow */
+td.en          { background-color: #aaeeaa; } /* green        */
+/* td.eren        { background-color: #aaddee; } /* teal         */
+td.er          { background-color: #aac6ee; } /* blue         */
+td.em          { background-color: #d7aaee; } /* purple       */
+td.e           { background-color: #fdb4b4; } /* red          */
+td.as          { background-color: #fde0b4; } /* orange       */
