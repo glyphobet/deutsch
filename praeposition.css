@@ -1,8 +1,14 @@
-table#praeposition tr, table#praeposition th {
-    width: 20%;
+table#praeposition td {
+    width: 22.5%;
+}
+table#praeposition th {
+    width: 10%;
 }
 table#praeposition tbody tr:first-child th {
     text-align:center;
+}
+table#praeposition tbody#akkusativ-dativ th {
+    vertical-align: middle;
 }
 td.es          { background-color: #fdfdb4; } /* yellow       */
 /*td.essen       { background-color: #e4f6af; } /* green-yellow */
