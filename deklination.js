@@ -1,60 +1,60 @@
 var suffixe = {
   nominativ : {
-      masculinen : '',
-      neutral    : '',
+      maskulinum : '',
+      neutrum    : '',
       femininum  : 'e',
       plural     : 'e'
   },
   akkusativ : {
-      masculinen : 'en',
-      neutral    : '',
+      maskulinum : 'en',
+      neutrum    : '',
       femininum  : 'e',
       plural     : 'e'
   },
   dativ     : {
-      masculinen : 'em',
-      neutral    : 'em',
+      maskulinum : 'em',
+      neutrum    : 'em',
       femininum  : 'er',
       plural     : 'en'
   },
   genitiv   : {
-      masculinen : 'es',
-      neutral    : 'es',
+      maskulinum : 'es',
+      neutrum    : 'es',
       femininum  : 'er',
       plural     : 'er'
   }
 };
 var bestimmt_suffixe = {
   nominativ : {
-    masculinen : 'er',
-    neutral    : 'es'
+    maskulinum : 'er',
+    neutrum    : 'es'
   },
   akkusativ : {
-    neutral    : 'es'
+    neutrum    : 'es'
   }
 };
 var exceptions = {
   bestimmt : {
     nominativ : {
-      neutral   : 'as'
+      neutrum   : 'as'
     },
     akkusativ : {
-      neutral   : 'as'
+      neutrum   : 'as'
     }
   },
   relativ : {
     nominativ : {
-      neutral   : 'as'
+      neutrum   : 'as'
     },
     akkusativ : {
-      neutral   : 'as'
+      neutrum   : 'as'
     },
     dativ : {
       plural : 'enen'
     },
     genitiv : {
-      masculinen : 'essen',
-      neutral    : 'essen',
+      maskulinum : 'essen',
+      neutrum    : 'essen',
       femininum  : 'eren', // derer?
       plural     : 'eren'  // derer?
     }
