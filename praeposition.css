@@ -10,11 +10,15 @@ table#praeposition tbody tr:first-child th {
 table#praeposition tbody#akkusativ-dativ th {
     vertical-align: middle;
 }
+td.fade    { font-weight: 100; color: rgba(0,0,0,0.3333); }
+td.spoken  { font-weight: 500; color: rgba(0,0,0,0.6667); }
+td.written { font-weight: 700; color: rgba(0,0,0,1     ); }
+
 td.es          { background-color: #fdfdb4; } /* yellow       */
 /*td.essen       { background-color: #e4f6af; } /* green-yellow */
 td.en          { background-color: #aaeeaa; } /* green        */
 /* td.eren        { background-color: #aaddee; } /* teal         */
 td.er          { background-color: #aac6ee; } /* blue         */
 td.em          { background-color: #d7aaee; } /* purple       */
-td.e           { background-color: #fdb4b4; } /* red          */
+td.ie          { background-color: #fdb4b4; } /* red          */
 td.as          { background-color: #fde0b4; } /* orange       */
