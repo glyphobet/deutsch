@@ -58,6 +58,28 @@ var exceptions = {
       femininum  : 'eren', // derer?
       plural     : 'eren'  // derer?
     }
+  },
+  gemischte : {
+    nominativ : {
+      maskulinum: 'er',
+      femininum: 'e',
+      neutrum: 'es'
+    },
+    akkusativ: {
+      femininum: 'e',
+      neutrum: 'es'
+    }
+  },
+  schwache : {
+    nominativ : {
+      maskulinum: 'e',
+      femininum: 'e',
+      neutrum: 'e'
+    },
+    akkusativ: {
+      femininum: 'e',
+      neutrum: 'e'
+    }
   }
 };
 // We use 'kase' because 'case' is a keyword in JavaScript
@@ -65,8 +87,11 @@ function find_suffix(group, gloss, kase, gender) {
   if (exceptions[gloss] && exceptions[gloss][kase] && exceptions[gloss][kase][gender]) {
     return exceptions[gloss][kase][gender];
   }
-  if (group == 'bestimmt' && bestimmt_suffixe[kase] && bestimmt_suffixe[kase][gender]) {
-    return bestimmt_suffixe[kase][gender];
+  if (group == 'bestimmt' || (group == 'adjektive' && gloss == 'starke')) {
+    return (bestimmt_suffixe[kase] || {})[gender] || suffixe[kase][gender];
+  }
+  if (group == 'adjektive') {
+    return 'en';
   }
   return suffixe[kase][gender];
 }
@@ -81,6 +106,8 @@ function decline(group, gloss, stem, kase, gender, suffix) {
       if (suffix == 'e') {
         return 'die';
       }
+    } else if (group == 'adjektive') {
+      stem = '';
     }
     return (stem ? stem : (suffix ? '-' : '')) + suffix;
   }
