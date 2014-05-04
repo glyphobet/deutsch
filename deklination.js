@@ -125,7 +125,7 @@ function render() {
       if (! form.length || form.slice(-suffix.length) != suffix) {
         suffix = '';
       }
-      $('table#bestimmungswoertern tr.' + kase + ' > td.' + gender).html(form).removeClass('e er en em es as eren essen').addClass(suffix);
+      $('table#bestimmungswoertern tr.' + kase + ' > td.' + gender).html(form).removeClass('e er en em es as eren enen essen').addClass(suffix);
     }
   }
 };
