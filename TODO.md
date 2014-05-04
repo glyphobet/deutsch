@@ -8,3 +8,6 @@ Verben:
 Präpositionen:
 
   * Intransitive Präpositionen
+  * Postpositions and prepositions:
+    * http://en.wikibooks.org/wiki/German/Grammar/Prepositions_and_Postpositions
+    * http://en.wiktionary.org/wiki/Category:German_postpositions
