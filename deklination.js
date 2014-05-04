@@ -99,7 +99,7 @@ function decline(group, gloss, stem, kase, gender, suffix) {
   if (stem == 'ein' && gender == 'plural') {
     return '';
   } else if (stem == 'eur' && suffix === '') {
-    return 'euer';
+    return 'eu<b>e</b>r';
   } else {
     if (gloss == 'bestimmt' || gloss == 'relativ') {
       stem = 'd';
@@ -125,7 +125,7 @@ function render() {
       if (! form.length || form.slice(-suffix.length) != suffix) {
         suffix = '';
       }
-      $('table#bestimmungswoertern tr.' + kase + ' > td.' + gender).text(form).removeClass('e er en em es as eren essen').addClass(suffix);
+      $('table#bestimmungswoertern tr.' + kase + ' > td.' + gender).html(form).removeClass('e er en em es as eren essen').addClass(suffix);
     }
   }
 };
