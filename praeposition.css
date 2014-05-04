@@ -10,6 +10,12 @@ table#praeposition tbody tr:first-child th {
 table#praeposition tbody#akkusativ-dativ th {
     vertical-align: middle;
 }
+table#praeposition tbody#akkusativ-dativ tr:nth-child(odd) {
+    border-bottom: 0.25em solid white;
+}
+table#praeposition tbody#akkusativ-dativ tr:first-child{
+    border-bottom: 0em;
+}
 td.fade    { font-weight: 100; color: rgba(0,0,0,0.3333); }
 td.spoken  { font-weight: 500; color: rgba(0,0,0,0.6667); }
 td.written { font-weight: 700; color: rgba(0,0,0,1     ); }
