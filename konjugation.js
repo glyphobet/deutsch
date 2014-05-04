@@ -38,7 +38,7 @@ var konjugation =
   , '2pl': '-t'
   }
 , gerundium: ['-end']
-, partizip: ['ge-en']
+, partizip: ['ge-t']
 };
 
 var konjugation_groups =
@@ -49,7 +49,6 @@ var konjugation_groups =
     , pl      : konjugation.praesens.pl
     , '2pl'   : konjugation.praesens['2pl']
     }
-  , partizip: ['ge-t']
   }
 , sei:
   { praeteritum:
@@ -58,6 +57,7 @@ var konjugation_groups =
     , pl : '-en'
     , '2pl': '-t'
     }
+  , partizip: ['ge-<b>en</b>']
   }
 , werd:
   { imperativ:
@@ -65,11 +65,12 @@ var konjugation_groups =
     , pl   : konjugation.imperativ.pl
     , '2pl': '-et'
     }
+  , partizip: ['ge-<b>en</b>']
   }
 , hab:
   { partizip: ['ge-t'] }
 , tu:
-  { partizip: ['ge-n'] }
+  { partizip: ['ge-<b>n</b>'] }
 };
 
 konjugation_groups.sei.konjunctiv_ii = konjugation_groups.sei.praeteritum;
@@ -79,16 +80,19 @@ var stems =
   { praesens:
     { sg: 'd<b>a</b>rf' }
     , praeteritum: 'd<b>u</b>rf'
+    , partizip: 'd<b>u</b>rf'
   }
 , 'könn':
   { praesens:
     { sg: 'k<b>a</b>nn' }
   , praeteritum: 'k<b>o</b>nn'
+  , partizip: 'k<b>o</b>nn'
   }
 , 'mög':
   { praesens:
     { sg: 'm<b>a</b>g' }
   , praeteritum  : 'm<b>och</b>'
+  , partizip  : 'm<b>och</b>'
   , konjunctiv_ii: 'm<b>och</b>'
   }
 , 'müss':
@@ -97,6 +101,7 @@ var stems =
     , '2sg': 'm<b>u</b>s'
     }
   , praeteritum: 'm<b>u</b>ss'
+  , partizip: 'm<b>u</b>ss'
   }
 , 'woll':
   { praesens:
@@ -106,7 +111,7 @@ var stems =
   { praeteritum: 'war'
   , konjunctiv_i: 'sei'
   , konjunctiv_ii: 'w<b>&auml</b>r'
-  , partizip: '<b>wes</b>'
+  , partizip: 'w<b>es</b>'
   }
 , 'werd':
   { praesens:
@@ -115,16 +120,15 @@ var stems =
     }
   , praeteritum: 'w<b>u</b>rd'
   , konjunctiv_ii: 'w<b>&uuml</b>rd'
-  , partizip: 'w<b>ord</b>'
+  , partizip: 'w<b>o</b>rd'
   }
 , 'hab':
-  { praesens: 
+  { praesens:
     { '2sg': 'ha'
     , '3sg': 'ha'
     }
   , praeteritum: 'ha<b>t</b>'
   , konjunctiv_ii: 'h<b>&auml;t</b>'
-  , partizip: 'hab'
   }
 , 'tu':
   { praeteritum: 't<b>a</b>'
